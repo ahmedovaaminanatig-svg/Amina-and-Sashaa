@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090914">
+  <title>♥ Саша — люблю тебя</title>
+  <style>
+    :root {
+      --bg: #090914;
+      --panel: rgba(24, 22, 43, .78);
+      --pink: #ff8fb8;
+      --pink-light: #ffd1e1;
+      --lavender: #b8a7ff;
+      --text: #fff4fa;
+      --muted: #c4b8d2;
+      --line: rgba(255, 196, 222, .18);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--text); background:
+        radial-gradient(ellipse at 15% 10%, rgba(102, 70, 145, .2), transparent 40%),
+        radial-gradient(ellipse at 85% 35%, rgba(174, 65, 117, .12), transparent 35%), var(--bg);
+      font-family: Georgia, "Times New Roman", serif; overflow-x: hidden;
+    }
+    #stars { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .topbar { position: sticky; top: 0; z-index: 5; backdrop-filter: blur(14px); background: rgba(9,9,20,.76); border-bottom: 1px solid var(--line); }
+    nav { max-width: 1050px; margin: auto; padding: 13px 18px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    nav a { color: var(--muted); text-decoration: none; font: 13px Arial, sans-serif; }
+    nav a:hover { color: var(--pink-light); }
+    .hero { min-height: 84vh; display: grid; place-items: center; text-align: center; padding: 72px 20px 50px; }
+    .hero-inner { max-width: 760px; }
+    .eyebrow { color: var(--pink); letter-spacing: 4px; text-transform: uppercase; font: 11px Arial, sans-serif; }
+    h1 { font-size: clamp(42px, 9vw, 82px); line-height: 1.05; margin: 20px 0 14px; font-weight: normal; }
+    h1 span { color: var(--pink); text-shadow: 0 0 30px rgba(255,143,184,.35); }
+    .subtitle { color: var(--muted); font-size: 18px; line-height: 1.7; }
+    .heart { color: var(--pink); display: inline-block; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 50% { transform: scale(1.18); text-shadow: 0 0 22px var(--pink); } }
+    .counter { margin: 32px auto 24px; padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); max-width: 640px; box-shadow: 0 20px 70px rgba(0,0,0,.2); }
+    .counter-label { color: var(--muted); font: 12px Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+    #days { font-size: clamp(36px, 7vw, 58px); color: var(--pink-light); margin: 10px 0; }
+    #detail { color: var(--muted); font: 13px Arial, sans-serif; }
+    .button { display: inline-block; border: 1px solid rgba(255,143,184,.5); background: linear-gradient(135deg, rgba(255,143,184,.18), rgba(184,167,255,.13)); color: var(--text); border-radius: 999px; padding: 12px 19px; text-decoration: none; cursor: pointer; font: 13px Arial, sans-serif; transition: .2s; }
+    .button:hover { transform: translateY(-2px); background: rgba(255,143,184,.22); }
+    section { max-width: 1050px; padding: 72px 20px; margin: auto; }
+    .section-head { text-align: center; margin-bottom: 30px; }
+    h2 { font-size: clamp(30px, 5vw, 43px); font-weight: normal; margin: 0 0 12px; }
+    .section-head p { color: var(--muted); line-height: 1.6; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+    .photo-card, .note, .letter-card, .timeline-item { background: var(--panel); border: 1px solid var(--line); border-radius: 17px; overflow: hidden; }
+    .photo-card { padding: 10px; transform: rotate(var(--tilt, 0deg)); transition: .25s; }
+    .photo-card:hover { transform: translateY(-5px) rotate(0); }
+    .photo-card img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 10px; background: linear-gradient(135deg, #28213f, #512d4d); }
+    .photo-card .caption { padding: 12px 4px 5px; }
+    .caption strong { display: block; font-size: 16px; font-weight: normal; }
+    .caption small { color: var(--muted); display: block; margin-top: 5px; font: 11px Arial, sans-serif; }
+    .note { padding: 23px; }
+    .note .symbol { font-size: 24px; color: var(--pink); }
+    .note h3, .letter-card h3 { font-size: 20px; font-weight: normal; margin: 12px 0 9px; }
+    .note p, .letter-card p { color: var(--muted); line-height: 1.7; margin-bottom: 0; }
+    .timeline { max-width: 720px; margin: auto; display: grid; gap: 14px; }
+    .timeline-item { padding: 20px 22px; position: relative; }
+    .timeline-item time { color: var(--pink); font: 11px Arial, sans-serif; letter-spacing: 1px; }
+    .timeline-item h3 { font-size: 20px; font-weight: normal; margin: 8px 0; }
+    .timeline-item p { color: var(--muted); line-height: 1.7; margin: 0; }
+    .letters { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+    .letter-card { padding: 20px; }
+    .letter-card button { margin-top: 16px; }
+    footer { text-align: center; color: var(--muted); padding: 38px 20px 50px; border-top: 1px solid var(--line); line-height: 1.8; }
+    footer strong { color: var(--pink-light); font-weight: normal; }
+    .modal { display: none; position: fixed; inset: 0; z-index: 20; padding: 20px; background: rgba(3,3,10,.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-box { width: min(520px, 100%); border: 1px solid var(--line); background: #171426; border-radius: 22px; padding: 28px; box-shadow: 0 20px 90px rgba(0,0,0,.5); }
+    .modal-box h3 { font-size: 28px; font-weight: normal; margin: 0 0 14px; color: var(--pink-light); }
+    .modal-box p { color: var(--text); line-height: 1.9; white-space: pre-line; }
+    .modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+    .hint { text-align: center; color: #958aa8; font: 11px Arial, sans-serif; margin-top: 18px; }
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .letters { grid-template-columns: 1fr; }
+      section { padding: 55px 16px; }
+      nav { gap: 12px; }
+      nav a { font-size: 12px; }
+    }
+    @media (max-width: 420px) { .grid { grid-template-columns: 1fr 1fr; gap: 10px; } .photo-card { padding: 7px; } .caption strong { font-size: 14px; } }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <header class="topbar">
+    <nav>
+      <a href="#home">Главная</a><a href="#photos">Фотографии</a><a href="#notes">Записки</a><a href="#story">Наша история</a><a href="#letters">Когда скучаешь</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero" id="home">
+      <div class="hero-inner">
+        <div class="eyebrow">только наша маленькая вселенная</div>
+        <h1> <span class="heart">♥</span> Саша</h1>
+        <p class="subtitle">Среди миллиардов звёзд<br>моя любимая — та, что привела меня к тебе.</p>
+        <div class="counter">
+          <div class="counter-label">Мы вместе уже</div>
+          <div id="days">Загрузка…</div>
+          <div id="detail"></div>
+        </div>
+        <a class="button" href="#photos">Наши воспоминания ↓</a>
+        <div class="hint">маленький мир, в котором всегда есть место нам двоим</div>
+      </div>
+    </div>
+
+    <section id="photos">
+      <div class="section-head"><div class="eyebrow">кадры, которые хочется сохранить</div><h2>Наши фотографии</h2><p>Каждый снимок — маленькая часть нашей истории.</p></div>
+      <div class="grid" id="photoGrid"></div>
+      
+    </section>
+
+    <section id="notes">
+      <div class="section-head"><div class="eyebrow">несколько слов от сердца</div><h2>Записки для тебя</h2><p>На случай, если я не рядом, но хочу напомнить о самом важном.</p></div>
+      <div class="grid">
+        <article class="note"><div class="symbol">♡</div><h3>Ты — мой человек</h3><p>Из всех людей в этом мире я снова и снова выбрала бы тебя. Мне не нужно, чтобы каждый день был идеальным. Мне важно, чтобы в нём был ты.</p></article>
+        <article class="note"><div class="symbol">✦</div><h3>Даже на расстоянии</h3><p>Расстояние может разделять города, но оно не отменяет наши чувства, воспоминания и маленькие планы на будущее.</p></article>
+        <article class="note"><div class="symbol">♥</div><h3>Моё любимое место</h3><p>Моё любимое место — не точка на карте. Это рядом с тобой, когда можно просто быть собой и чувствовать себя дома.</p></article>
+      </div>
+    </section>
+
+    <section id="story">
+      <div class="section-head"><div class="eyebrow">от первого момента до наших мечт</div><h2>Наша история</h2></div>
+      <div class="timeline">
+        <article class="timeline-item"><time>ГЛАВА 01</time><h3>С чего всё началось</h3><p>А ведь всё началось с обычного тик тока на соревнованиях. Ты просто подсел ко мне и не хотел уходить, а я тогда даже не догадывалась, что однажды ты станешь таким родным и любимым человеком.
+
+Иногда я думаю, как же здорово, что в тот день всё сложилось именно так. Ведь благодаря баскетболу я встретила тебя — человека, с которым у меня теперь столько воспоминаний и чувств.
+
+Кто бы мог подумать, что одно обычное видео станет началом нашей истории. Если бы мне дали возможность прожить тот день заново, я бы снова выбрала всё так же, лишь бы в конце снова встретить тебя. ♥</p></article>
+        <article class="timeline-item"><time>ГЛАВА 02</time><h3>Момент, который я храню</h3><p>Я даже не могу выбрать какое-то одно любимое воспоминание с тобой, потому что мне дорог каждый день, который мы провели вместе. Я люблю наши вечера, когда мы смотрели фильмы, наши игры в хорроры, когда мы пугались, смеялись и просто дурачились. Люблю даже те моменты, когда мы ничего не делали, а просто лежали вместе, обнимались и молчали. Казалось бы, ничего особенного, но именно в такие минуты я была по-настоящему счастлива.
+
+Мне никогда не нужно было придумывать что-то особенное, чтобы мне было хорошо с тобой. Мне нравилось просто находиться рядом, чувствовать тебя рядом с собой, прижиматься к тебе и понимать, что сейчас мне больше ничего не нужно.
+
+Знаешь, я бы с удовольствием вернулась в любой из наших обычных дней. Не потому, что там происходило что-то невероятное, а потому, что там был ты. И если бы меня спросили, какое моё самое любимое воспоминание о нас, я бы ответила, что не могу выбрать. Ведь я люблю не какой-то определённый момент — я люблю Нашу жизнь вместе, все наши маленькие привычки, наши вечера, объятия, смех и даже молчание. Я люблю то, как мне было с тобой, и очень хочу, чтобы впереди у нас было ещё столько всего, что нам обоим будет что вспомнить.</p></article>
+        <article class="timeline-item"><time>ГЛАВА 03</time><h3>То, что впереди</h3><p>Осталось совсем чуть-чуть потерпеть, и мы наконец-то будем каждый день вместе. Иногда мне даже сложно поверить, что совсем скоро я смогу просто обнять тебя, прижаться к тебе перед сном, увидеть тебя рядом утром и больше не думать о том, сколько ещё ждать нашей встречи.
+
+Я так хочу, чтобы у нас поскорее появилась наша маленькая жизнь: наши вечера с фильмами, игры, объятия, споры из-за какой-нибудь ерунды, смех без причины и даже обычные дни, когда мы просто будем лежать рядом. И, конечно, наша собачка, о которой мы будем заботиться вместе.
+
+Мне хочется вместе с тобой взрослеть, строить планы, исполнять мечты и проходить через все трудности. Я понимаю, что не всегда всё будет легко, но мне так важно знать, что мы будем рядом и сможем поддержать друг друга. Я хочу однажды посмотреть на нашу жизнь и понять, что всё, о чём мы сейчас мечтаем, стало нашей реальностью.</p></article>
+      </div>
+    </section>
+
+    <section id="letters">
+      <div class="section-head"><div class="eyebrow">открой письмо, когда оно тебе нужно</div><h2>Открой, когда скучаешь</h2><p>Выбери конверт. Внутри — несколько слов, которые хочется оставить тебе.</p></div>
+      <div class="letters">
+        <article class="letter-card"><div class="symbol">✉</div><h3>Когда скучаешь по мне</h3><p>Одно маленькое письмо только для тебя.</p><button class="button" data-letter="miss">Открыть письмо</button></article>
+        <article class="letter-card"><div class="symbol">✉</div><h3>Когда тебе грустно</h3><p>Пусть эти слова немного согреют тебя.</p><button class="button" data-letter="sad">Открыть письмо</button></article>
+        <article class="letter-card"><div class="symbol">✉</div><h3>Когда сомневаешься</h3><p>Напоминание о том, что для меня важно.</p><button class="button" data-letter="doubt">Открыть письмо</button></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div style="font-size:25px;color:var(--pink)">♥</div>
+    <strong>Амиша и Саша</strong><br>
+    Где бы мы ни были, пусть у нас всегда будет место, куда можно вернуться — друг к другу.
+  </footer>
+
+  <div class="modal" id="letterModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="eyebrow">письмо для тебя</div><h3 id="modalTitle"></h3><p id="modalText"></p>
+      <div class="modal-actions"><button class="button" id="closeModal">Закрыть ♥</button></div>
+    </div>
+  </div>
+
+  <script>
+    // ИЗМЕНИ ДАТУ НА ДЕНЬ, КОГДА ВЫ НАЧАЛИ ВСТРЕЧАТЬСЯ: ГГГГ-ММ-ДД
+    const relationshipStart = "2025-07-05";
+
+    // Добавляй сюда свои фото. Пример: { src: "photos/our-photo.jpg", title: "Наш день", date: "6 июля 2025" }
+    const photos = [
+      { src: "photos/photo_2026-10-26_11-17-21.jpg", title: "Моё любимое фото", date: "Наше воспоминание" },
+      { src: "photos/photo_2026-10-26_11-17-24.jpg", title: "Ты и я", date: "Момент, который люблю" },
+      { src: "photos/photo_2026-10-26_11-17-49.jpg", title: "Маленькое счастье", date: "Только наше" },
+      { src: "photos/photo_2026-10-26_11-17-34.jpg", title: "Моя улыбка", date: "Рядом с тобой" },
+      { src: "photos/photo_2026-10-26_11-17-27.jpg", title: "Мы", date: "Ещё одна история" },
+      { src: "photos/photo_2026-10-26_11-17-22.jpg", title: "И снова ты", date: "Мой любимый человек" }
+    ];
+
+    const letters = {
+      miss: {
+        title: "Когда ты скучаешь по мне",
+        text: "Если бы я сейчас была рядом, я бы крепко-крепко тебя обняла и никуда не отпускала ещё немного.\\n\\nПосмотри на наши фотографии, вспомни мой голос и знай: даже если между нами расстояние, ты всё равно занимаешь особенное место в моём сердце. Я очень жду наших следующих объятий.\\n\\nТвоя Амиша ♥"
+      },
+      sad: {
+        title: "Когда тебе грустно",
+        text: "Любимый, тебе не нужно всегда быть сильным и делать вид, что всё хорошо. У тебя тоже бывают трудные дни, и это нормально.\\n\\nЯ хочу, чтобы у тебя было побольше поводов улыбаться. Пожалуйста, береги себя, отдыхай и помни, что ты достоин тепла, заботы и счастья.\\n\\nОбнимаю тебя мысленно. ♥"
+      },
+      doubt: {
+        title: "Когда тебе нужны тёплые слова",
+        text: "Я не могу обещать, что каждый день будет простым. Но я хочу, чтобы мы умели разговаривать, слышать друг друга и беречь то хорошее, что есть между нами.\\n\\nСпасибо за моменты, которые мы уже разделили. Мне хочется создавать с тобой ещё много воспоминаний — честно, нежно и по-настоящему.\\n\\nТы мне очень дорог. ♥"
+      }
+    };
+
+    function updateCounter() {
+      const start = new Date(relationshipStart + "T00:00:00");
+      if (Number.isNaN(start.getTime())) {
+        document.getElementById("days").textContent = "Проверь дату";
+        document.getElementById("detail").textContent = "Исправь relationshipStart в коде.";
+        return;
+      }
+      const now = new Date();
+      if (start > now) {
+        document.getElementById("days").textContent = "Наша история начинается скоро";
+        document.getElementById("detail").textContent = "Проверь дату начала отношений в коде.";
+        return;
+      }
+      const diff = now - start;
+      const totalDays = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      document.getElementById("days").textContent = totalDays + " дней";
+      document.getElementById("detail").textContent = hours + " часов · " + minutes + " минут · и это только начало ♥";
+    }
+    updateCounter();
+    setInterval(updateCounter, 60000);
+
+    const grid = document.getElementById("photoGrid");
+    photos.forEach((photo, index) => {
+      const card = document.createElement("article");
+      card.className = "photo-card";
+      card.style.setProperty("--tilt", (index % 2 === 0 ? "-1deg" : "1deg"));
+      const img = document.createElement("img");
+      img.src = photo.src;
+      img.alt = photo.title;
+      img.loading = "lazy";
+      img.onerror = () => {
+        img.removeAttribute("src");
+        img.alt = "Добавь фотографию: " + photo.src;
+        img.style.display = "block";
+        img.style.background = "linear-gradient(135deg,#28213f,#512d4d)";
+      };
+      const caption = document.createElement("div");
+      caption.className = "caption";
+      const title = document.createElement("strong");
+      title.textContent = photo.title;
+      const date = document.createElement("small");
+      date.textContent = photo.date;
+      caption.append(title, date);
+      card.append(img, caption);
+      grid.append(card);
+    });
+
+    const modal = document.getElementById("letterModal");
+    document.querySelectorAll("[data-letter]").forEach(button => {
+      button.addEventListener("click", () => {
+        const letter = letters[button.dataset.letter];
+        document.getElementById("modalTitle").textContent = letter.title;
+        document.getElementById("modalText").textContent = letter.text.replace(/\\n/g, "\n");
+        modal.classList.add("open");
+      });
+    });
+    function closeModal() { modal.classList.remove("open"); }
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+    modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+    // Небольшое анимированное звёздное небо без внешних библиотек
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+    function makeStars() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      stars = Array.from({length: Math.floor(window.innerWidth / 5)}, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.4 + .25,
+        a: Math.random() * .65 + .2,
+        speed: Math.random() * .012 + .003
+      }));
+    }
+    let tick = 0;
+    function drawStars() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      tick++;
+      for (const s of stars) {
+        const opacity = s.a * (.72 + Math.sin(tick * s.speed) * .28);
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 220, 239, ${opacity})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(drawStars);
+    }
+    window.addEventListener("resize", makeStars);
+    makeStars();
+    drawStars();
+  </script>
+</body>
+</html>
